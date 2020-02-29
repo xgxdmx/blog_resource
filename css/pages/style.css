@@ -2256,7 +2256,7 @@ li.item {
 }
 
 /*手机样式*/
-@media(max-width:530px) {
+@media(max-width:768px) {
 
     /*手机*/
     /*顶部*/
