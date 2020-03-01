@@ -1,4 +1,5 @@
-window.live2d_settings = Array(); /*
+window.live2d_settings = Array(); 
+/*
 
     く__,.ヘヽ.　　　　/　,ー､ 〉
     　　　　　＼ ', !-─‐-i　/　/´
@@ -16,13 +17,14 @@ window.live2d_settings = Array(); /*
     　　　　　　 !'〈//｀Ｔ´', ＼ ｀'7'ｰr'          Live2d Cubism SDK WebGL 2.1 Projrct & All model authors.
     　　　　　　 ﾚ'ヽL__|___i,___,ンﾚ|ノ
     　　　　　 　　　ﾄ-,/　|___./
-    　　　　　 　　　'ｰ'　　!_,.:*********************************************************************************/
+    　　　　　 　　　'ｰ'　　!_,.:********************************************************************************
+    */
 
 
 // 后端接口
 live2d_settings['modelAPI']             = '//'+window.location.host+'/live2d-api/';   // 自建 API 修改这里(注意:前面要加上自己的域名（前提是你把api文件放在网站根目录）)
 live2d_settings['tipsMessage']          = 'waifu-tips.json';            // 同目录下可省略路径
-live2d_settings['hitokotoAPI']          = 'jinrishici.com';                  // 一言 API，可选 'lwl12.com', 'hitokoto.cn', 'jinrishici.com'(古诗词)
+live2d_settings['hitokotoAPI']          = 'hitokoto';                  // 一言 API，可选 'lwl12.com', 'hitokoto.cn', 'jinrishici.com'(古诗词)
 
 // 默认模型
 live2d_settings['modelId']              = 3;            // 默认模型 ID，可在 F12 控制台找到
@@ -137,6 +139,7 @@ function initModel(waifuPath, type) {
     $("#live2d").attr("height",live2d_settings.waifuSize[1]);
     $(".waifu-tips").width(live2d_settings.waifuTipsSize[0]);
     $(".waifu-tips").height(live2d_settings.waifuTipsSize[1]);
+    $(".waifu-tips").css("text-overflow","ellipsis");
     $(".waifu-tips").css("top",live2d_settings.waifuToolTop);
     $(".waifu-tips").css("font-size",live2d_settings.waifuFontSize);
     $(".waifu-tool").css("font-size",live2d_settings.waifuToolFont);
@@ -361,14 +364,14 @@ function loadTipsMessage(result) {
 
     function showHitokoto() {
         switch(live2d_settings.hitokotoAPI) {
-            case 'lwl12.com':
-                $.getJSON('https://api.lwl12.com/hitokoto/v1?encode=realjson',function(result){
-                    if (!empty(result.source)) {
-                        var text = waifu_tips.hitokoto_api_message['lwl12.com'][0];
-                        if (!empty(result.author)) text += waifu_tips.hitokoto_api_message['lwl12.com'][1];
-                        text = text.render({source: result.source, creator: result.author});
-                        window.setTimeout(function() {showMessage(text+waifu_tips.hitokoto_api_message['lwl12.com'][2], 3000, true);}, 5000);
-                    } showMessage(result.text, 5000, true);
+            case 'hitokoto':
+                $.getJSON('https://v1.hitokoto.cn/',function(result){
+                    if (!empty(result.from)) {
+                        var text = waifu_tips.hitokoto_api_message['hitokoto.cn'][0];
+                        text = text.render({source: result.from, creator: result.creator});
+                        window.setTimeout(function() {showMessage(text, 3000, true);}, 5000);
+                    }
+                    showMessage(result.hitokoto, 5000, true);
                 });break;
             case 'fghrsh.net':
                 $.getJSON('https://api.fghrsh.net/hitokoto/rand/?encode=jsc&uid=3335',function(result){
